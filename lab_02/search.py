@@ -8,15 +8,18 @@ class Search:
         self.goal_node = None
         self.solution_flg = 1
         self.no_solution_flg = 1
+        self.closed_nodes = []
 
     def run(self, goal_node: Node, in_node_arr: [Node]):
         self.goal_node = goal_node
         self.set_nodes_closed(in_node_arr)
-
+        print("Start state: ")
+        self.print_closed_nodes()
         while self.solution_flg and self.no_solution_flg:
             rule_cnt = self.parent_search()
 
             if self.solution_flg == 0:
+                print("Solution was found")
                 return
 
             if rule_cnt == 0:
@@ -33,10 +36,11 @@ class Search:
                     continue
 
                 if self.is_close_nodes_cover(rule.node_arr):
-                    print(f'Rule {rule.number}: all nodes are closed, added to opened')
+                    print(f'Rule {rule.number}: {rule.node_arr} -> {rule.out_node}: all in-nodes are closed, added {rule.out_node} to closed')
                     rule.label = Label.CLOSE
-                    self.set_nodes_closed(rule.node_arr)
                     rule.out_node.flag = Label.CLOSE
+                    self.closed_nodes.append(rule.out_node)
+                    self.print_closed_nodes()
 
                     if rule.out_node == self.goal_node:
                         self.solution_flg = 0
@@ -60,6 +64,7 @@ class Search:
     def set_nodes_closed(self, node_arr):
         for node in node_arr:
             node.flag = Label.CLOSE
+            self.closed_nodes.append(node)
 
     def print_closed_rules(self):
         for rule in self.rule_arr:
@@ -69,5 +74,10 @@ class Search:
 
     def print_nodes(self, node_arr: [Node]):
         for node in node_arr:
+            print(node, end=' ')
+        print()
+    def print_closed_nodes(self):
+        print("Closed nodes:", end = " ")
+        for node in self.closed_nodes:
             print(node, end=' ')
         print()

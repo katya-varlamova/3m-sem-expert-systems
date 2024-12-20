@@ -79,8 +79,8 @@ def test_1():
     # Search(rule_arr).run(node14, [node5, node6, node2, node1, node18,
     #                               node22, node23, node7, node13])
 
-    Search(rule_arr2).run(node14, [node17, node20, node12, node13]) # node17, node20, node12, node13
-
+    #Search(rule_arr2).run(node14, [node17, node20, node12, node13]) # node17, node20, node12, node13
+    Search(rule_arr2).run(node14, [node3, node4, node9, node21])
 
 if __name__ == "__main__":
     test_1()
